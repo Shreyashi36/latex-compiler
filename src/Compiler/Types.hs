@@ -1,6 +1,6 @@
 module Compiler.Types where
 
-import Data.Text (Text)
+import Data.Text ()
 
 data LatexElement
     = Environment String [LatexElement]

@@ -1,3 +1,5 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+
 module Utils.FileHandler where
 
 import qualified Data.Text as T

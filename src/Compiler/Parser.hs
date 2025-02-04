@@ -3,7 +3,7 @@ module Compiler.Parser where
 import Text.Parsec
 import Text.Parsec.Text
 import qualified Data.Text as T
-import Control.Monad (void)
+import Control.Monad ()
 import Compiler.Types
 
 parseLatexDoc :: T.Text -> Either ParseError LatexDocument
@@ -18,9 +18,9 @@ documentParser = do
 
 documentClassParser :: Parser String
 documentClassParser = do
-    string "\\documentclass{"
+    _ <- string "\\documentclass{"
     cls <- many1 letter
-    char '}'
+    _ <- char '}'
     return cls
 
 preambleParser :: Parser [LatexElement]
@@ -45,16 +45,16 @@ elementParser = choice
 
 commandParser :: Parser LatexElement
 commandParser = do
-    char '\\'
+    _ <- char '\\'
     name <- many1 letter
     args <- many argumentParser
     return $ Command name args
 
 environmentParser :: Parser LatexElement
 environmentParser = do
-    string "\\begin{"
+    _ <- string "\\begin{"
     name <- many1 letter
-    char '}'
+    _ <- char '}'
     content <- manyTill elementParser (try $ string "\\end{" >> string name >> char '}')
     return $ Environment name content
 
@@ -66,4 +66,4 @@ mathParser = between (char '$') (char '$') $
     Math <$> many (noneOf "$")
 
 textParser :: Parser LatexElement
-textParser = Text <$> many1 (noneOf "\\${}") 
+textParser = Text <$> many1 (noneOf "\\${}")

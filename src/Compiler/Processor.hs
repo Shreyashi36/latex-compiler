@@ -13,9 +13,9 @@ renderDocument :: LatexDocument -> T.Text
 renderDocument doc = T.unlines
     [ renderDocumentClass (documentClass doc)
     , renderPreamble (preamble doc)
-    , "\\begin{document}"
+    , T.pack "\\begin{document}"
     , renderBody (body doc)
-    , "\\end{document}"
+    , T.pack "\\end{document}"
     ]
 
 renderDocumentClass :: String -> T.Text
